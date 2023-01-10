@@ -5,17 +5,17 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { Movie } from "@/components";
 import { axios } from "@/lib";
-import { MovieEntity } from "@/types";
+import { MovieEntity, PopularMoviesResponse } from "@/types";
 
 export const PopularMovies: React.FC = () => {
   const fetchPopularMovies = async ({ pageParam = 1 }) => {
-    const response = await axios.get("movie/popular", {
+    const response: PopularMoviesResponse = await axios.jsonp("movie/popular", {
       params: {
         page: pageParam,
       },
     });
 
-    return response.data;
+    return response;
   };
 
   const {
@@ -29,10 +29,10 @@ export const PopularMovies: React.FC = () => {
   } = useInfiniteQuery({
     queryKey: ["movies"],
     queryFn: fetchPopularMovies,
-    getNextPageParam: (lastPage) => lastPage.page < lastPage["total_pages"],
+    getNextPageParam: (lastPage) => lastPage.page < lastPage.totalPages,
   });
 
-  const [sentryRef] = useInfiniteScroll({
+  const [scrollObserverRef] = useInfiniteScroll({
     loading: isFetching && !isFetchingNextPage,
     hasNextPage: !!hasNextPage,
     onLoadMore: fetchNextPage,
@@ -50,10 +50,8 @@ export const PopularMovies: React.FC = () => {
           <Movie key={movie.id} movie={movie} />
         ));
       })}
-      <div ref={sentryRef}>
-        {isFetching && !isFetchingNextPage ? "Fetching..." : null}
-      </div>
-      <div ref={sentryRef} />
+      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+      <div ref={scrollObserverRef} />
     </>
   );
 };

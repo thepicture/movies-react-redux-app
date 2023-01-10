@@ -1,8 +1,7 @@
-import Axios, { AxiosRequestConfig } from "axios";
+import Axios, { AxiosRequestConfig, AxiosResponse } from "axios-jsonp-pro";
+import { camelizeKeys } from "humps";
 
 import { API_KEY, BASE_URL } from "@/config";
-
-console.log(BASE_URL);
 
 export const axios = Axios.create({
   baseURL: BASE_URL,
@@ -14,4 +13,9 @@ const requestInterceptor = (config: AxiosRequestConfig) => {
   return config;
 };
 
+const responseInterceptor = (response: AxiosResponse) => {
+  return camelizeKeys(response) as AxiosResponse<any>;
+};
+
 axios.interceptors.request.use(requestInterceptor);
+axios.interceptors.response.use(responseInterceptor);

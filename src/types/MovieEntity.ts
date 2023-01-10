@@ -1,16 +1,16 @@
 export type MovieEntity = {
-  poster_path: string | null;
+  posterPath: string | null;
   adult: boolean;
   overview: string;
-  release_date: string;
-  genre_ids: number[];
+  releaseDate: string;
+  genreIds: number[];
   id: number;
-  original_title: string;
-  original_language: string;
+  originalTitle: string;
+  originalLanguage: string;
   title: string;
-  backdrop_path: string | null;
+  backdropPath: string | null;
   popularity: number;
-  vote_count: number;
+  voteCount: number;
   video: boolean;
-  vote_average: number;
+  voteAverage: number;
 };
