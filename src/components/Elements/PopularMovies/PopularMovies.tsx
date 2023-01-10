@@ -1,4 +1,5 @@
 import React from "react";
+import useInfiniteScroll from "react-infinite-scroll-hook";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -24,10 +25,18 @@ export const PopularMovies: React.FC = () => {
     isFetching,
     isFetchingNextPage,
     status,
+    error,
   } = useInfiniteQuery({
-    queryKey: ["projects"],
+    queryKey: ["movies"],
     queryFn: fetchPopularMovies,
     getNextPageParam: (lastPage) => lastPage.page < lastPage["total_pages"],
+  });
+
+  const [sentryRef] = useInfiniteScroll({
+    loading: isFetching && !isFetchingNextPage,
+    hasNextPage: !!hasNextPage,
+    onLoadMore: fetchNextPage,
+    disabled: !!error,
   });
 
   return status === "loading" ? (
@@ -41,19 +50,10 @@ export const PopularMovies: React.FC = () => {
           <Movie key={movie.id} movie={movie} />
         ));
       })}
-      <div>
-        <button
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-        >
-          {isFetchingNextPage
-            ? "Loading more..."
-            : hasNextPage
-            ? "Load More"
-            : "Nothing more to load"}
-        </button>
+      <div ref={sentryRef}>
+        {isFetching && !isFetchingNextPage ? "Fetching..." : null}
       </div>
-      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+      <div ref={sentryRef} />
     </>
   );
 };
