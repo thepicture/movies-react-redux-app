@@ -8,6 +8,9 @@ export const axios = Axios.create({
 });
 
 const requestInterceptor = (config: AxiosRequestConfig) => {
+  if (!config.params) {
+    config.params = {};
+  }
   config.params.api_key = API_KEY;
 
   return config;

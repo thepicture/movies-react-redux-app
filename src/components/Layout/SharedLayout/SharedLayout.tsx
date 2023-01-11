@@ -1,10 +1,13 @@
-import { Header, Content, BaseContainer } from "@/components";
+import { RouterProvider } from "react-router-dom";
 
-export const Layout = () => {
+import { Header, BaseContainer } from "@/components";
+import { router } from "@/providers";
+
+export const SharedLayout = () => {
   return (
     <BaseContainer>
       <Header />
-      <Content />
+      <RouterProvider router={router} />
     </BaseContainer>
   );
 };

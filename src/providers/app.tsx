@@ -1,22 +1,25 @@
-import { RouterProvider } from "react-router-dom";
+import React from "react";
+import { Provider } from "react-redux";
 
 import { ThemeProvider } from "@mui/material";
 
 import { QueryClientProvider } from "@tanstack/react-query";
 
-import { Header } from "@/components";
+import { store } from "@/app";
 import { queryClient, theme } from "@/lib";
-import { router } from "@/providers";
 
-export const AppProvider = () => {
+export interface AppProviderProps {
+  children: React.ReactNode;
+}
+
+export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <>
-          <Header />
-          <RouterProvider router={router} />
-        </>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </ThemeProvider>
+    </Provider>
   );
 };

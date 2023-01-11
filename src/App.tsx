@@ -1,12 +1,16 @@
-import { Route, Router } from "react-router-dom";
+import { RouterProvider, useRoutes } from "react-router-dom";
 
-import { Content, Header } from "@/components";
 import { AppProvider } from "@/providers";
+import { router } from "@/providers";
 
 import "./App.css";
 
 function App() {
-  return <AppProvider />;
+  return (
+    <AppProvider>
+      <RouterProvider router={router} />
+    </AppProvider>
+  );
 }
 
 export default App;

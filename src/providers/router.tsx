@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { PopularMovies } from "@/components";
+import { MoviesPage } from "@/components";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <PopularMovies />,
+    element: <MoviesPage />,
   },
 ]);
