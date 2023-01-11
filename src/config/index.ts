@@ -3,3 +3,5 @@ export const API_KEY =
   "010af89e03e170a041013e41fc7b17f4";
 
 export const BASE_URL = process.env.REACT_APP_BASE_URL as string;
+
+export const ALWAYS_RERENDER = () => [];

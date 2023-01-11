@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
@@ -16,7 +17,10 @@ import Typography from "@mui/material/Typography";
 
 import { Logo } from "@/components";
 
-const pages = ["Popular Movies", "Favorites"];
+const pages = [
+  { title: "Popular Movies", path: "/" },
+  { title: "Favorites", path: "/movies/favorites" },
+];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,12 +63,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export const Header: React.FC<any> = () => {
+export interface HeaderProps {
+  onSearchQuery?: (query: string) => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onSearchQuery }) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -74,10 +82,8 @@ export const Header: React.FC<any> = () => {
     setAnchorElNav(null);
   };
 
-  const handleSearchQueryChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchQuery(event.target.value);
+  const handleNavigate = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -138,8 +144,11 @@ export const Header: React.FC<any> = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page.path}
+                  onClick={() => handleNavigate(page.path)}
+                >
+                  <Typography textAlign="center">{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -165,11 +174,11 @@ export const Header: React.FC<any> = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.path}
+                onClick={() => handleNavigate(page.path)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.title}
               </Button>
             ))}
           </Box>
@@ -179,8 +188,9 @@ export const Header: React.FC<any> = () => {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              value={searchQuery}
-              onChange={handleSearchQueryChange}
+              onChange={(event) =>
+                onSearchQuery && onSearchQuery(event.target.value)
+              }
               type="search"
               inputProps={{ "aria-label": "search" }}
             />

@@ -22,10 +22,10 @@ const IMAGE_HEIGHT = 160;
 
 export interface MovieProps {
   movie: MovieEntity;
-  onFavoritesToggle: (movieId: number) => void;
+  onFavoriteToggle: (movieId: number) => void;
 }
 
-export const Movie: React.FC<MovieProps> = ({ movie, onFavoritesToggle }) => {
+export const Movie: React.FC<MovieProps> = ({ movie, onFavoriteToggle }) => {
   const isInFavorites = MovieAPI.isInFavorites(movie.id);
 
   return (
@@ -44,7 +44,14 @@ export const Movie: React.FC<MovieProps> = ({ movie, onFavoritesToggle }) => {
           <Typography gutterBottom variant="h5" component="h2">
             {movie.title}
           </Typography>
-          <GenreList genreIds={movie.genreIds} />
+          <GenreList
+            genreIds={
+              movie.genreIds ||
+              (movie as MovieEntity & { genres: { id: number }[] }).genres.map(
+                (genre) => genre.id
+              )
+            }
+          />
           <Typography
             mt={1}
             variant="body2"
@@ -65,7 +72,7 @@ export const Movie: React.FC<MovieProps> = ({ movie, onFavoritesToggle }) => {
           arrow
         >
           <Button
-            onClick={() => onFavoritesToggle(movie.id)}
+            onClick={() => onFavoriteToggle(movie.id)}
             size="small"
             variant="contained"
             color={isInFavorites ? "warning" : "primary"}
