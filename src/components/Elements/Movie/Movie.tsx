@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Card,
@@ -11,13 +12,12 @@ import {
   Tooltip,
 } from "@mui/material";
 
+import { FALLBACK_MOVIE_IMAGE_URL } from "@/config";
 import { MovieAPI } from "@/lib";
 import { MovieEntity } from "@/types";
 
 import { GenreList } from "../GenreList";
 
-const FALLBACK_URL =
-  "https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg";
 const IMAGE_HEIGHT = 160;
 
 export interface MovieProps {
@@ -28,15 +28,21 @@ export interface MovieProps {
 export const Movie: React.FC<MovieProps> = ({ movie, onFavoriteToggle }) => {
   const isInFavorites = MovieAPI.isInFavorites(movie.id);
 
+  const navigate = useNavigate();
+
+  const handleMovieClick = () => {
+    navigate(`/movies/${movie.id}`);
+  };
+
   return (
     <Card>
-      <CardActionArea>
+      <CardActionArea onClick={handleMovieClick}>
         <CardMedia
           sx={{ height: IMAGE_HEIGHT }}
           image={
             movie.backdropPath
               ? `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.backdropPath}`
-              : FALLBACK_URL
+              : FALLBACK_MOVIE_IMAGE_URL
           }
           title={movie.title}
         />
@@ -81,7 +87,7 @@ export const Movie: React.FC<MovieProps> = ({ movie, onFavoriteToggle }) => {
           </Button>
         </Tooltip>
         <Tooltip title={`Get the full information about ${movie.title}`} arrow>
-          <Button size="small" color="primary">
+          <Button onClick={handleMovieClick} size="small" color="primary">
             More Info
           </Button>
         </Tooltip>

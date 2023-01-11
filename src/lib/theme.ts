@@ -9,4 +9,16 @@ export const theme = createTheme({
       main: "##01b4e4",
     },
   },
+  components: {
+    MuiCard: {
+      defaultProps: {
+        elevation: 5,
+      },
+      styleOverrides: {
+        root: {
+          padding: 32,
+        },
+      },
+    },
+  },
 });

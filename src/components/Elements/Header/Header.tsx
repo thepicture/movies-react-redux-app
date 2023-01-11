@@ -182,7 +182,7 @@ export const Header: React.FC<HeaderProps> = ({ onSearchQuery }) => {
               </Button>
             ))}
           </Box>
-          <Search>
+          <Search hidden={!!!onSearchQuery}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
