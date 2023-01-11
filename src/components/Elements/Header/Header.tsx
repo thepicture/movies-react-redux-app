@@ -82,7 +82,12 @@ export const Header: React.FC<HeaderProps> = ({ onSearchQuery }) => {
     setAnchorElNav(null);
   };
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = (
+    path: string,
+    event?: React.MouseEvent<HTMLElement>
+  ) => {
+    event?.preventDefault();
+
     navigate(path);
   };
 
@@ -100,7 +105,8 @@ export const Header: React.FC<HeaderProps> = ({ onSearchQuery }) => {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/movies-react-redux-app"
+            onClick={(event) => handleNavigate("/", event)}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },

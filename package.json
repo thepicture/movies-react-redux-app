@@ -2,6 +2,7 @@
   "name": "movies-react-redux-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://thepicture.github.io/movies-react-redux-app",
   "dependencies": {
     "@craco/craco": "^7.0.0",
     "@emotion/react": "^11.10.5",
@@ -36,7 +37,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "publish": "node publish.js"
   },
   "eslintConfig": {
     "extends": [
@@ -57,6 +59,7 @@
     ]
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.0.0"
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "gh-pages": "^4.0.0"
   }
 }

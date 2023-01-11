@@ -45,6 +45,8 @@ export const Movie: React.FC<MovieProps> = ({ movie, onFavoriteToggle }) => {
               : FALLBACK_MOVIE_IMAGE_URL
           }
           title={movie.title}
+          component="img"
+          loading="lazy"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
