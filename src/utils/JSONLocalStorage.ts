@@ -25,6 +25,12 @@ export class JSONLocalStorage {
   }
 
   static get<T>(key: string): T {
-    return JSON.parse(localStorage.getItem(key)!);
+    const item = localStorage.getItem(key);
+
+    if (item === null) {
+      throw new Error("Key does not exist");
+    }
+
+    return JSON.parse(item);
   }
 }
